@@ -9,7 +9,9 @@ return new class extends Migration
 {
     public function up(): void
     {
-        DB::statement("ALTER TABLE users MODIFY role ENUM('customer', 'admin', 'shipper') NOT NULL DEFAULT 'customer'");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE users MODIFY role ENUM('customer', 'admin', 'shipper') NOT NULL DEFAULT 'customer'");
+        }
 
         Schema::table('orders', function (Blueprint $table) {
             if (! Schema::hasColumn('orders', 'shipper_id')) {
@@ -32,6 +34,8 @@ return new class extends Migration
 
         DB::table('users')->where('role', 'shipper')->update(['role' => 'customer']);
 
-        DB::statement("ALTER TABLE users MODIFY role ENUM('customer', 'admin') NOT NULL DEFAULT 'customer'");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE users MODIFY role ENUM('customer', 'admin') NOT NULL DEFAULT 'customer'");
+        }
     }
 };

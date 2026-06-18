@@ -16,7 +16,7 @@ class HomeController extends Controller
 
         // Get all categories with products
         $categories = Category::withCount('products')
-            ->having('products_count', '>', 0)
+            ->whereHas('products')
             ->orderBy('category_name')
             ->get();
 
