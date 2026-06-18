@@ -87,12 +87,15 @@ public function momoReturn(Request $request)
         $orderId = $request->get('orderId');
         $order = Order::where('order_number', $orderId)->first();
 
-        if ($order) {
-            $order->update([
-                'payment_status' => 'paid',
-                'status' => 'processing',
-            ]);
+        if (! $order) {
+            return redirect()->route('checkout.fail')
+                ->with('error', 'Khong tim thay don hang MoMo.');
         }
+
+        $order->update([
+            'payment_status' => 'paid',
+            'status' => 'processing',
+        ]);
 
         return view('checkout.success', ['message' => 'Thanh toán Momo thành công!']);
     } else {

@@ -19,6 +19,14 @@
                     <p class="text-muted">Cảm ơn bạn đã mua hàng tại TechMart</p>
                 </div>
 
+                @if (!isset($order))
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body text-center">
+                            <p class="mb-0">{{ session('success') ?? ($message ?? 'Giao dich da duoc xu ly thanh cong.') }}</p>
+                        </div>
+                    </div>
+                @else
+
                 <!-- Order Information -->
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
@@ -152,6 +160,8 @@
                         </div>
                     </div>
                 </div>
+
+                @endif
 
                 <!-- Action Buttons -->
                 <div class="text-center mb-4">
